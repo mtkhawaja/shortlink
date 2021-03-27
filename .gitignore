@@ -130,3 +130,7 @@ dmypy.json
 
 # vscode config
 .vscode/
+
+# JS Dependency directories
+node_modules/
+jspm_packages/

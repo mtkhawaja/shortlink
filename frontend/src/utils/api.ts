@@ -1,4 +1,4 @@
-import { BACKEND_URL } from '../config';
+import { BACKEND_URL } from '../config/settings';
 
 export const getMessage = async () => {
   const response = await fetch(BACKEND_URL);

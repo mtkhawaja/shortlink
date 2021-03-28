@@ -1,4 +1,5 @@
 export * from './Home';
+export * from './Documentation';
 export * from './Login';
 export * from './SignUp';
 export * from './Protected';

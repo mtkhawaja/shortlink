@@ -1,23 +1,23 @@
-from fastapi import APIRouter, Request, Depends, Response, encoders
-import typing as t
+from typing import List
 
-from app.db.session import get_db
-from app.db.cruds.user_crud import (
-    get_users,
-    get_user,
+from app.core.auth import get_current_active_superuser, get_current_active_user
+from app.db.crud.user import (
     create_user,
     delete_user,
     edit_user,
+    get_user,
+    get_users,
 )
-from app.db.schemas.user_schema import UserCreate, UserEdit, User, UserOut
-from app.core.auth import get_current_active_user, get_current_active_superuser
+from app.db.schemas.user import User, UserCreate, UserEdit
+from app.db.session import get_db
+from fastapi import APIRouter, Depends, Request, Response
 
 users_router = r = APIRouter()
 
 
 @r.get(
     "/users",
-    response_model=t.List[User],
+    response_model=List[User],
     response_model_exclude_none=True,
 )
 async def users_list(

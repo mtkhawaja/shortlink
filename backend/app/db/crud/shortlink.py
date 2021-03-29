@@ -11,8 +11,6 @@ def get_original_url_and_meta_data(
     db: Session, key_str: str
 ) -> ShortlinkInverse:
     pk = Shortlink.decode(key_str)
-    a = db.query(Shortlink).filter(Shortlink.id == pk).first()
-    print(type(a.original_url))
     return db.query(Shortlink).filter(Shortlink.id == pk).first()
 
 

@@ -12,6 +12,7 @@
     "react-admin": "^3.5.2",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.15.5",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.3",
     "react-truncate": "^2.4.0",

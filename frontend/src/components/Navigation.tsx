@@ -12,10 +12,10 @@ export default function Navigation() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">
+            <Nav.Link as={Link} to="/pages/home">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/docs">
+            <Nav.Link as={Link} to="/pages/docs">
               API Documentation
             </Nav.Link>
           </Nav>

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 from app.db.session import get_db
-from app.db.cruds.user_crud import create_user
-from app.db.schemas.user_schema import UserCreate
+from app.db.crud.user import create_user
+from app.db.schemas.user import UserCreate
 from app.db.session import SessionLocal
 
 

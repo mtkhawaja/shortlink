@@ -1,5 +1,4 @@
 from fastapi.testclient import TestClient
-from starlette import responses
 from app.db.models.Shortlink import Shortlink
 
 

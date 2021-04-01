@@ -7,5 +7,7 @@ class Decoder:
     def decode(key_str: str) -> int:
         num = 0
         for index, symbol in enumerate(reversed(key_str)):
+            if symbol not in ALPHABET_MAP:
+                return -1
             num += ALPHABET_MAP[symbol] * (BASE ** index)
         return num

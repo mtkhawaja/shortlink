@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "shortlink"
+version = "0.1.0"
+description = "URL shortener."
+authors = ["Muneeb Khawaja <muneebtahirkhawaja@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.71.0"
+uvicorn = "^0.17.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+requests = "^2.27.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

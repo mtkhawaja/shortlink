@@ -6,8 +6,9 @@ authors = ["Muneeb Khawaja <muneebtahirkhawaja@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = "^0.71.0"
+fastapi = "^0.72.0"
 uvicorn = "^0.17.0"
+SQLAlchemy = "^1.4.29"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

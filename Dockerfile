@@ -38,7 +38,7 @@ RUN poetry install  --no-dev --no-root
 #
 FROM python-base as package-base
 WORKDIR /shortlink
-COPY ./src ./
+COPY ./src ./src
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}
+CMD uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8080}

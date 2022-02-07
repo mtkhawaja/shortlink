@@ -11,11 +11,12 @@ on:
 
 env:
   POETRY_VIRTUALENVS_IN_PROJECT: true
+  POETRY_VERSION: 1.1.12
 
 jobs:
   build:
 
-    name: ${{ matrix.os }} / ${{ matrix.python-version }}
+    name: ${{ matrix.os }} / Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.image }}
 
     strategy:
@@ -34,14 +35,29 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Get full Python version
+        id: full-python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+
       - name: Install Poetry.
         run: curl -sSL https://install.python-poetry.org | python3 -
 
       - name: Update PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+      - name: Cache
+        uses: actions/cache@v2.1.7
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Ensure cache is healthy
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: timeout 10s poetry run pip --version || rm -rf .venv
+
       - name: Install dependencies
         run: poetry install
 
       - name: Run pytest
-        run: poetry run python -m pytest -p no:sugar -q tests/
+        run: poetry run python -m pytest tests/

@@ -1,5 +1,8 @@
 # shortlink
 
+[![tests](https://github.com/mtkhawaja/shortlink/actions/workflows/main.yml/badge.svg)](https://github.com/mtkhawaja/shortlink/actions/workflows/main.yml)
+[![Docker Build](https://github.com/mtkhawaja/shortlink/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mtkhawaja/shortlink/actions/workflows/docker-image.yml)
+
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)

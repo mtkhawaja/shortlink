@@ -2,6 +2,7 @@
 
 [![tests](https://github.com/mtkhawaja/shortlink/actions/workflows/main.yml/badge.svg)](https://github.com/mtkhawaja/shortlink/actions/workflows/main.yml)
 [![Docker Build](https://github.com/mtkhawaja/shortlink/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mtkhawaja/shortlink/actions/workflows/docker-image.yml)
+[![codecov](https://codecov.io/gh/mtkhawaja/shortlink/branch/main/graph/badge.svg?token=I6B4QDNOYI)](https://codecov.io/gh/mtkhawaja/shortlink)
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)

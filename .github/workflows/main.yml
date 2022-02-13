@@ -59,5 +59,10 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: Run pytest
-        run: poetry run python -m pytest tests/
+      - name: Run tests with pytest & coverage
+        run: poetry run coverage run -m pytest tests/
+
+      - name: Upload Coverage to Codecov
+      - uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true

@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    environment:
+      - LOG_FILE=/shortlink/logs/shortlink.log
+      - FF_CONSOLE=LOGGING=True
+      - PORT=8080
+    ports:
+      - "8080:8080"

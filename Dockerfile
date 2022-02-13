@@ -19,7 +19,10 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_NO_INTERACTION=1 \
     # Paths
     PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"
+    VENV_PATH="/opt/pysetup/.venv" \
+    LOG_FILE="/shortlink/logs/shortlink.log" \
+    FF_CONSOLE_LOGGING="True"
+
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
 #

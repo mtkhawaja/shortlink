@@ -16,5 +16,8 @@ def read_root():
 
 app.include_router(short_link_router)
 
-settings = get_settings()
-settings.log_configuration(logger)
+
+@app.on_event('startup')
+def startup_event():
+    settings = get_settings()
+    settings.log_configuration(logger)

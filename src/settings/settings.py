@@ -6,6 +6,7 @@ from pydantic import (
     Field,
 )
 
+from src.settings.caching import CachingConfiguration
 from src.settings.constants import ConversionBase, Environment
 from src.settings.logging import LoggingConfiguration
 
@@ -21,6 +22,7 @@ class Settings(BaseSettings):
     )
 
     logging_config: LoggingConfiguration = LoggingConfiguration()
+    caching_config: CachingConfiguration = CachingConfiguration()
 
     def __init__(self, **values: Any):
         super().__init__(**values)
@@ -30,3 +32,4 @@ class Settings(BaseSettings):
         logger.info(f"Environment: '{self.environment.name}'")
         logger.info(f"Conversion base: '{self.conversion_base}'")
         self.logging_config.log_logging_configuration(logger)
+        self.caching_config.log_caching_configuration(logger)

@@ -1,7 +1,10 @@
 from functools import lru_cache
 
+from redis.client import Redis
+
 from src.services import ConversionService, EncodingConfig, DecodingConfig, EncodingService, DecodingService
 from src.settings import ConversionBase
+from src.settings.caching import ShortLinkCache
 from src.settings.database import SessionLocal
 from src.settings.settings import Settings
 
@@ -25,3 +28,9 @@ def get_conversion_service(conversion_base: ConversionBase) -> ConversionService
     encoding_service = EncodingService(encoding_config)
     decoding_service = DecodingService(decoding_config)
     return ConversionService(encoding_service, decoding_service)
+
+
+@lru_cache()
+def get_short_link_cache() -> ShortLinkCache:
+    redis_client: Redis = Redis.from_url(url=get_settings().caching_config.redis_url)
+    return ShortLinkCache(redis_client)

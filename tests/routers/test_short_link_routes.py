@@ -4,8 +4,17 @@ import requests
 from fastapi.testclient import TestClient
 
 from src.main import app
+from src.settings.caching import ShortLinkCache, NullShortLinkCache
+from src.settings.dependencies import get_short_link_cache
 
 client = TestClient(app)
+
+
+def cache_override() -> ShortLinkCache:
+    return NullShortLinkCache()
+
+
+app.dependency_overrides[get_short_link_cache] = cache_override
 
 
 class TestShortLinkRoutes:

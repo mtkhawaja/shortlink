@@ -32,7 +32,7 @@ class LoggingConfiguration(BaseSettings):
         LoggingConfiguration._create_log_file(self.log_file)
         handlers: list[logging.Handler] = self.create_log_handlers(self.log_level, self.log_file,
                                                                    self.log_format, self.ff_console_logging)
-        logging.basicConfig(format=self.log_format, level=logging.INFO, handlers=handlers)
+        logging.basicConfig(format=self.log_format, level=self.log_level, handlers=handlers)
 
     @staticmethod
     def _create_log_file(log_file: pathlib.Path):

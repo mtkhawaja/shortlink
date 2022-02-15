@@ -1,4 +1,6 @@
 import tempfile
+import uuid
+from datetime import datetime
 from typing import Generator
 from unittest.mock import Mock
 
@@ -60,3 +62,8 @@ def mock_redis_client() -> Generator[Mock, None, None]:
 @pytest.fixture
 def short_link_response(original_url: str, key_string: str) -> Generator[ShortLinkResponse, None, None]:
     yield ShortLinkResponse(original_url=original_url, key_string=key_string)
+
+
+@pytest.fixture
+def random_filename() -> Generator[str, None, None]:
+    yield f"{datetime.now().strftime('%y%m%d_%H%M%S')}-{uuid.uuid4().hex}-test.txt"

@@ -9,13 +9,11 @@ from sqlalchemy.orm import Session
 from src.db.schemas.short_link_schemas import ShortLinkCreate, ShortLinkResponse
 from src.services.short_link_service import ShortLinkService
 from src.settings.caching import ShortLinkCache
-from src.settings.database import Base, engine
 from src.settings.dependencies import get_db, get_settings, get_conversion_service, get_short_link_cache
 
 short_link_router = APIRouter(prefix="/v1")
 logger = logging.getLogger(__name__)
 conversion_service = get_conversion_service(get_settings().conversion_base)
-Base.metadata.create_all(bind=engine)
 
 
 @short_link_router.post("/create/", response_model=ShortLinkResponse)

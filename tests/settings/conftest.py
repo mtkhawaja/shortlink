@@ -67,3 +67,59 @@ def short_link_response(original_url: str, key_string: str) -> Generator[ShortLi
 @pytest.fixture
 def random_filename() -> Generator[str, None, None]:
     yield f"{datetime.now().strftime('%y%m%d_%H%M%S')}-{uuid.uuid4().hex}-test.txt"
+
+
+@pytest.fixture
+def sqlite_url() -> Generator[str, None, None]:
+    yield "sqlite:///:memory:"
+
+
+@pytest.fixture
+def unsupported_url() -> Generator[str, None, None]:
+    yield "UNSUPPORTED:///:memory:"
+
+
+@pytest.fixture
+def db_url(db_scheme: str, db_username: str, db_password: str, db_hostname: str, db_port: str,
+           db_path: str, db_query_params: str) -> Generator[str, None, None]:
+    yield f"{db_scheme}://{db_username}:{db_password}@{db_hostname}:{db_port}{db_path}?{db_query_params}"
+
+
+@pytest.fixture
+def db_scheme() -> Generator[str, None, None]:
+    yield "postgresql+psycopg2"
+
+
+@pytest.fixture
+def db_username() -> Generator[str, None, None]:
+    yield "sl-service-account"
+
+
+@pytest.fixture
+def db_password() -> Generator[str, None, None]:
+    yield "sl-service-account-secret"
+
+
+@pytest.fixture
+def db_port() -> Generator[str, None, None]:
+    yield "5432"
+
+
+@pytest.fixture
+def db_hostname() -> Generator[str, None, None]:
+    yield "localhost"
+
+
+@pytest.fixture
+def db_path() -> Generator[str, None, None]:
+    yield "/sl_db"
+
+
+@pytest.fixture
+def db_query_params() -> Generator[str, None, None]:
+    yield "a=b,c=d"
+
+
+@pytest.fixture
+def connect_args() -> Generator[str, None, None]:
+    yield {"check_same_thread": False}

@@ -1,11 +1,14 @@
 from functools import lru_cache
+from typing import Generator
 
 from redis.client import Redis
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import sessionmaker, Session
 
+from settings.database import DatabaseConfiguration
 from src.services import ConversionService, EncodingConfig, DecodingConfig, EncodingService, DecodingService
 from src.settings import ConversionBase
 from src.settings.caching import ShortLinkCache
-from src.settings.database import SessionLocal
 from src.settings.settings import Settings
 
 
@@ -14,8 +17,19 @@ def get_settings() -> Settings:
     return Settings()
 
 
-def get_db():
-    db = SessionLocal()
+@lru_cache()
+def get_engine() -> Engine:
+    return get_settings().database_config.create_engine()
+
+
+@lru_cache()
+def get_session_maker() -> sessionmaker:
+    return DatabaseConfiguration.create_session_maker(engine=get_engine())
+
+
+def get_db() -> Generator[Session, None, None]:
+    session_class: sessionmaker = get_session_maker()
+    db: Session = session_class()
     try:
         yield db
     finally:

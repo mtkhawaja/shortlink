@@ -5,10 +5,10 @@ from redis.client import Redis
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from settings.database import DatabaseConfiguration
 from src.services import ConversionService, EncodingConfig, DecodingConfig, EncodingService, DecodingService
 from src.settings import ConversionBase
 from src.settings.caching import ShortLinkCache
+from src.settings.database import DatabaseConfiguration
 from src.settings.settings import Settings
 
 

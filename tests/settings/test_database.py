@@ -1,3 +1,5 @@
+import pytest
+
 from src.settings.database import DatabaseConfiguration
 
 
@@ -35,3 +37,8 @@ class TestDatabase:
         assert db_config.path == ""
         assert db_config.query_params == ""
         assert db_config.connect_args is not None, "connect_args must not be 'None'"
+
+    def test_should_raise_value_error_when_engine_creation_is_attempted_before_a_db_url_is_set(self):
+        db_config = DatabaseConfiguration(db_url=None)
+        with pytest.raises(ValueError):
+            db_config.create_engine()

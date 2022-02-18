@@ -69,6 +69,9 @@ class DatabaseConfiguration(BaseSettings):
     def create_engine(self):
         if self.use_in_memory_sqlite:
             return create_engine(self.db_url, connect_args=self.connect_args, poolclass=StaticPool)
+        if self.db_url is None:
+            raise ValueError("Database URL is None. One of the following "
+                             "env vars must be set to create engine: ['DB_URL', 'USE_IN_MEMORY_SQLITE']")
         return create_engine(self.db_url, connect_args=self.connect_args)
 
     @staticmethod

@@ -1,5 +1,5 @@
 from src.services import ConversionService
-from src.settings.dependencies import get_conversion_service, get_settings
+from src.settings.dependencies import get_conversion_service, get_settings, get_db
 from src.settings.settings import Settings
 
 
@@ -15,3 +15,8 @@ class TestDependencies:
         conversion_service: ConversionService = get_conversion_service(settings.conversion_base)
         assert conversion_service is not None
         assert conversion_service.base == settings.conversion_base
+
+    def test_should_load_db_when_loading_db_as_a_dependency(self):
+        settings = get_settings()
+        settings.database_config.db_url = "sqlite:///:memory:"
+        assert next(get_db()) is not None

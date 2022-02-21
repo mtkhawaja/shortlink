@@ -38,6 +38,8 @@ class TestDependencies:
     def test_should_load_short_link_cache_when_caching_is_enabled(self):
         get_settings.cache_clear()
         get_short_link_cache.cache_clear()
+        settings = get_settings()
+        settings.caching_config.ff_caching = True
         cache = get_short_link_cache()
         assert cache is not None
         assert not isinstance(cache, NullShortLinkCache)

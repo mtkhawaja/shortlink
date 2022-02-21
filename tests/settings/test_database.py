@@ -8,7 +8,7 @@ class TestDatabase:
             self, db_url: str, db_scheme: str, db_username: str, db_password: str, db_hostname: str, db_port: str,
             db_path: str, db_query_params: str, connect_args: dict
     ):
-        db_config = DatabaseConfiguration(db_url=db_url, connect_args=connect_args)
+        db_config = DatabaseConfiguration(use_in_memory_sqlite=False, db_url=db_url, connect_args=connect_args)
         assert db_config.scheme == db_scheme
         assert db_config.username == db_username
         assert db_config.password == db_password
@@ -28,7 +28,7 @@ class TestDatabase:
         assert db_config.db_url == "sqlite:///:memory:"
 
     def test_should_initialize_optional_properties_to_empty_string_when_they_are_not_available(self):
-        db_config = DatabaseConfiguration(db_url="")
+        db_config = DatabaseConfiguration(use_in_memory_sqlite=False, db_url="")
         assert db_config.scheme == ""
         assert db_config.username == ""
         assert db_config.password == ""
@@ -39,6 +39,6 @@ class TestDatabase:
         assert db_config.connect_args is not None, "connect_args must not be 'None'"
 
     def test_should_raise_value_error_when_engine_creation_is_attempted_before_a_db_url_is_set(self):
-        db_config = DatabaseConfiguration(db_url=None)
+        db_config = DatabaseConfiguration(use_in_memory_sqlite=False, db_url=None)
         with pytest.raises(ValueError):
             db_config.create_engine()

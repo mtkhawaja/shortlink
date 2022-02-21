@@ -55,7 +55,7 @@ class TestShortLinkRoutes:
     def test_should_retrieve_original_url_when_a_get_request_is_made_to_the_resolve_end_point_with_a_key_string(
             self, request_body: dict, setup_and_teardown_db
     ):
-        creation_response = client.post("/v1/create/", json=request_body, )
+        creation_response = client.post("/v1/create/", json=request_body)
         assert creation_response is not None
         assert creation_response.status_code == http.HTTPStatus.OK
         key_str = creation_response.json()["key_string"]
@@ -63,3 +63,11 @@ class TestShortLinkRoutes:
         assert retrieval_response is not None
         assert retrieval_response.status_code == http.HTTPStatus.OK
         assert retrieval_response.json()["original_url"] == request_body["original_url"]
+
+    def test_should_return_a_404_when_retrieving_an_original_url_that_does_not_exist(
+            self, request_body: dict, setup_and_teardown_db):
+        key_str = "45a1"
+        response = client.get(f"/v1/resolve/{key_str}")
+        assert response is not None
+        assert response.status_code == http.HTTPStatus.NOT_FOUND
+        assert response.json()["message"] == f"Original url for '{key_str}' does not exist"

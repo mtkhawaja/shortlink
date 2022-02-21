@@ -30,6 +30,7 @@ services:
       FF_CONSOLE_LOGGING: True
       DB_URL: ${DB_URL:-postgresql+psycopg2://postgres:postgres@db:5432}
       REDIS_URL: ${REDIS_URL:-redis://:redis-password@cache:6379}
+      FF_CACHING: True
       PORT: 8080
     ports:
       - "8080:8080"

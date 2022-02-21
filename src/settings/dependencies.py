@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker, Session
 
 from src.services import ConversionService, EncodingConfig, DecodingConfig, EncodingService, DecodingService
 from src.settings import ConversionBase
-from src.settings.caching import ShortLinkCache
+from src.settings.caching import ShortLinkCache, NullShortLinkCache
 from src.settings.database import DatabaseConfiguration
 from src.settings.settings import Settings
 
@@ -46,5 +46,8 @@ def get_conversion_service(conversion_base: ConversionBase) -> ConversionService
 
 @lru_cache()
 def get_short_link_cache() -> ShortLinkCache:
-    redis_client: Redis = Redis.from_url(url=get_settings().caching_config.redis_url)
+    config = get_settings().caching_config
+    if not config.ff_caching:
+        return NullShortLinkCache()
+    redis_client: Redis = Redis.from_url(url=config.redis_url)
     return ShortLinkCache(redis_client)

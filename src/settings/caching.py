@@ -39,6 +39,12 @@ class CachingConfiguration(BaseSettings):
                     "Note: If `REDIS_URL` is set, all other redis configuration options are overridden"
     )
 
+    ff_caching: bool = Field(
+        default=True,
+        env="FF_CACHING",
+        description="Set to `False` to disable all caching operations."
+    )
+
     def __init__(self, **values: Any):
         super().__init__(**values)
         self.redis_url = self._create_redis_url()
@@ -50,6 +56,9 @@ class CachingConfiguration(BaseSettings):
         return f"redis://{self.redis_user}:{self.redis_password}@{self.redis_host}:{self.redis_port}"
 
     def log_caching_configuration(self, logger):
+        if not self.ff_caching:
+            logger.warning(f"`FF_CACHING` set to `False`. The cache will not be used.")
+            return
         logger.info(f"Redis Url: {self.redis_url.replace(self.redis_password, '<redacted>')}")
 
     def _sync_properties(self):

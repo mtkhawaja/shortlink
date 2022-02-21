@@ -44,19 +44,9 @@ WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock* ./pyproject.toml ./
 RUN poetry install  --no-dev --no-root
 
-#
-# (2) Copy source code & setup run configuration.
-#
-
-FROM python-base as runnable
-WORKDIR /shortlink
-COPY ./src ./src
-COPY --from=builder-base $POETRY_HOME $POETRY_HOME
-COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
-CMD uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8080}
 
 #
-# (3) Run Tests.
+# (2) Run Tests.
 #
 
 FROM python-base as tests
@@ -68,3 +58,14 @@ WORKDIR /shortlink
 COPY ./src ./src
 COPY ./tests ./tests
 CMD pytest tests
+
+#
+# (3) Copy source code & setup run configuration.
+#
+
+FROM python-base as runnable
+WORKDIR /shortlink
+COPY ./src ./src
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
+COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+CMD uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8080}

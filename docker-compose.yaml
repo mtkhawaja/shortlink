@@ -1,12 +1,36 @@
 version: "3.9"
 services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5433:5432"
+  cache:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis-password}
   api:
+    depends_on:
+      - db
+      - cache
     build:
       context: ./
       dockerfile: ./Dockerfile
+      target: runnable
     environment:
-      - LOG_FILE=/shortlink/logs/shortlink.log
-      - FF_CONSOLE=LOGGING=True
-      - PORT=8080
+      ENVIRONMENT: DEV
+      CONVERSION_BASE: 64
+      LOG_LEVEL: INFO
+      LOG_FILE: /shortlink/logs/shortlink.log
+      FF_CONSOLE_LOGGING: True
+      DB_URL: ${DB_URL:-postgresql+psycopg2://postgres:postgres@db:5432}
+      REDIS_URL: ${REDIS_URL:-redis://:redis-password@cache:6379}
+      PORT: 8080
     ports:
       - "8080:8080"
+

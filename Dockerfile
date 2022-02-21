@@ -20,30 +20,50 @@ ENV PYTHONUNBUFFERED=1 \
     # Paths
     PYSETUP_PATH="/opt/pysetup" \
     VENV_PATH="/opt/pysetup/.venv" \
+    # Application
+    ENVIRONMENT="DEV" \
     LOG_FILE="/shortlink/logs/shortlink.log" \
-    FF_CONSOLE_LOGGING="True"
-
+    LOG_LEVEL="INFO" \
+    FF_CONSOLE_LOGGING="True" \
+    CONVERSION_BASE="64" \
+    USE_IN_MEMORY_SQLITE="True"
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+    # psycopg2
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y curl libpq-dev python3-dev gcc
 
 #
 # (1) Setup build tools, copy dependency list & install dependencies
 #
+
 FROM python-base as builder-base
-RUN \
-    apt-get update && \
-    apt-get install --no-install-recommends -y curl libpq-dev python3-dev gcc
 RUN curl -sSL https://install.python-poetry.org | python3 -
 WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock* ./pyproject.toml ./
 RUN poetry install  --no-dev --no-root
 
+#
+# (2) Copy source code & setup run configuration.
+#
 
-#
-# (2) , copy source code & setup run configuration.
-#
-FROM python-base as package-base
+FROM python-base as runnable
 WORKDIR /shortlink
 COPY ./src ./src
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 CMD uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8080}
+
+#
+# (3) Run Tests.
+#
+
+FROM python-base as tests
+RUN curl -sSL https://install.python-poetry.org | python3 -
+WORKDIR $PYSETUP_PATH
+COPY ./poetry.lock* ./pyproject.toml ./
+RUN poetry install
+WORKDIR /shortlink
+COPY ./src ./src
+COPY ./tests ./tests
+CMD pytest tests
